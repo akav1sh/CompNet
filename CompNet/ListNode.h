@@ -7,20 +7,23 @@ class PC;
 
 class ListNode
 {
-public:
+private:
 	PC* m_pc;
 	int m_next;
 
+public:
 	// C'tors
 	ListNode(PC* pc = nullptr, int next = -1); // C'tor
 	ListNode(const ListNode& other) = delete; // Disable copy c'tor
 	ListNode(ListNode&&)            = delete;
 	~ListNode()                     = default;
 	// Setters
-	void setPc(PC* pc);
+	void setPC(PC* pc);
 	// Getters
 	PC* getPc() const;
 	int getNext() const;
+
+	friend class StaticList;
 };
 
 #endif // __LISTNODE_H

@@ -3,21 +3,25 @@
 
 #include "ItemType.h"
 
-// Implementation of stack as a linked list with pointers
+// Stack who's data are ItemTypes and uses nodes for next in line
 class Stack
 {
 private:
-	Node* topOfStack; // Pointer node to the top of the stack
+	Node* m_topOfStack; // Pointer node to the top of the stack
 
 public:
-	Stack(); // C'tor
-	Stack(const Stack& other) = delete; // Disable copy c'tor
-	~Stack(); // D'tor
-	void makeEmpty();
-	bool isEmpty() const;
-	void push(ItemType* item);
-	ItemType* pop();
-	ItemType* top() const;
+	// C'tors, no copy or move
+	 Stack();
+	 Stack(const Stack&) = delete;
+	 Stack(Stack&&)      = delete;
+	~Stack();
+
+	// Stack methods
+	void makeEmpty ();
+	bool isEmpty   () const;
+	void push      (ItemType* m_item);
+	ItemType* pop  ();
+	ItemType* top  () const;
 };
 
 #endif // __STACK_H

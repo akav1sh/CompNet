@@ -6,7 +6,7 @@
 class DynamicList
 {
 private:
-	ItemType* m_head;
+	ItemType* m_head; //Want to change to node
 	ItemType* m_tail;
 public:
 	// C'tors

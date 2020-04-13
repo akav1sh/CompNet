@@ -1,43 +1,43 @@
 #include "Node.h"
-
+//-------------------------------------------------------------------------------------------//
 Node::Node(ItemType* item, Node* next) // C'tor
-	: item(item), next(next)
+	: m_item(item), m_next(next)
 {
 }
-
+//-------------------------------------------------------------------------------------------//
+void Node::setitem(ItemType* item)
+{
+	this->m_item = item;
+}
+//-------------------------------------------------------------------------------------------//
+ItemType* Node::getItem() const
+{
+	return this->m_item;
+}
+//-------------------------------------------------------------------------------------------//
+Node* Node::getNext() const
+{
+	return this->m_next;
+}
+//-------------------------------------------------------------------------------------------//
 // Insert new node after current node
 void Node::insertAfter(Node* newNode)
 {
-	newNode->next = this->next;
-	this->next = newNode;
+	newNode->m_next = this->m_next;
+	this->m_next    = newNode;
 }
-
+//-------------------------------------------------------------------------------------------//
 // Delete node after current node
 Node* Node::deleteAfter()
 {
-	Node* temp = this->next;
+	Node* temp = this->m_next;
 
-	if (this->next == nullptr) // End of the list
+	if (!this->m_next) // End of the list
 	{
 		return nullptr;
 	}
 
-	this->next = temp->next;
+	this->m_next = temp->m_next;
 	return temp;
 }
-
-void Node::setitem(ItemType* item)
-{
-	this->item = item;
-}
-
-ItemType* Node::getItem() const
-{
-	return item;
-}
-
-Node* Node::getNext() const
-{
-	return next;
-}
-
+//-------------------------------------------------------------------------------------------//

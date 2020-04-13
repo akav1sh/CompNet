@@ -1,41 +1,42 @@
 #include "Stack.h"
 
+//-------------------------------------------------------------//
 Stack::Stack() // C'tor
-	: topOfStack(nullptr)
+	: m_topOfStack(nullptr)
 {
 }
-
+//-------------------------------------------------------------//
 Stack::~Stack() // D'tor
 {
-	makeEmpty();
+	this->makeEmpty();
 }
-
+//-------------------------------------------------------------//
 // Make an empty stack
 void Stack::makeEmpty()
 {
 	Node* temp;
 
-	while (topOfStack != nullptr)
+	while (this->m_topOfStack)
 	{
-		temp = topOfStack;
-		topOfStack = topOfStack->getNext();
+		temp = this->m_topOfStack;
+		this->m_topOfStack = this->m_topOfStack->getNext();
 		delete temp;
 	}
 }
-
+//-------------------------------------------------------------//
 // Check if stack is empty
 bool Stack::isEmpty() const
 {
-	return (topOfStack == nullptr);
+	return (this->m_topOfStack == nullptr);
 }
-
-// Push item into the stack
-void Stack::push(ItemType* item)
+//-------------------------------------------------------------//
+// Push m_item into the stack
+void Stack::push(ItemType* m_item)
 {
-	topOfStack = new Node(item, topOfStack);
+	this->m_topOfStack = new Node(m_item, m_topOfStack);
 }
-
-// Pop top item and return it
+//-------------------------------------------------------------//
+// Pop top m_item and return it
 ItemType* Stack::pop()
 {
 	if (isEmpty())
@@ -43,15 +44,16 @@ ItemType* Stack::pop()
 		cout << "Error: Stack is empty!" << endl;
 		exit(EMPTY_STACK_ERROR);
 	}
-	Node* tempNode = topOfStack;
-	ItemType* temp = tempNode->getItem();
-	topOfStack = topOfStack->getNext();
+
+	Node*     tempNode = this->m_topOfStack;
+	ItemType* tempItem = tempNode->getItem();
+	this->m_topOfStack = this->m_topOfStack->getNext();
 
 	delete tempNode;
-	return temp;
+	return tempItem;
 }
-
-// Return the data of the top item in the stack
+//-------------------------------------------------------------//
+// Return the data of the top m_item in the stack
 ItemType* Stack::top() const
 {
 	if (isEmpty())
@@ -60,5 +62,6 @@ ItemType* Stack::top() const
 		exit(EMPTY_STACK_ERROR);
 	}
 
-	return topOfStack->getItem();
+	return this->m_topOfStack->getItem();
 }
+//-------------------------------------------------------------//

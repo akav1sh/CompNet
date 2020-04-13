@@ -33,7 +33,7 @@ void ComputerNetwork::findAccessibleRec(int mainPC)
 {
 	this->m_colorArr[mainPC - 1] = BLACK;
 	this->m_accessiblePCs.addItemToEndOfList(&this->m_PCArr[mainPC - 1]);
-	ItemType* nextConnection = this->m_PCArr[mainPC - 1].getList()->getHead();
+	ItemType* nextConnection = this->m_PCArr[mainPC - 1].getList().getHead();
 
 	while(nextConnection)
 	{
@@ -68,9 +68,9 @@ void ComputerNetwork::findAccessibleItr(int mainPC)
 		if (currentItem->getPlace() == ItemType::START)
 		{
 			currentItem->setPlace(ItemType::AFTER_FIRST);
-			if (currentItem->getPC()->getList()->getHead())
+			if (currentItem->getPC()->getList().getHead())
 			{
-				currentItem->setPC(currentItem->getPC()->getList()->getHead()->getPC());
+				currentItem->setPC(currentItem->getPC()->getList().getHead()->getPC());
 				returnFromRecursion = true;
 				stack.push(currentItem);
 			}
@@ -100,7 +100,7 @@ void ComputerNetwork::printAccessibles()
 
 	while (next != ENDLIST)
 	{
-		cout << m_accessiblePCs.getArray()[next].m_pc->getPCNum() << ' ';
-		next = m_accessiblePCs.getArray()[next].m_next;
+		cout << m_accessiblePCs.getArray()[next].getPC()->getPCNum() << ' ';
+		next = m_accessiblePCs.getArray()[next].getNext();
 	}
 }

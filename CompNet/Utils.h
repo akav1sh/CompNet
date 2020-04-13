@@ -1,8 +1,8 @@
 #ifndef __UTILS_H
 #define __UTILS_H
 
-#pragma warning(disable: 4996)  //deprecation IO methods
-#pragma warning(disable: 4326)  //main request int return instead of void
+#pragma warning(disable: 4996)  //Deprecation IO methods
+#pragma warning(disable: 4326)  //Main request int return instead of void
 
 #include <iostream>
 #include <string.h>
@@ -10,6 +10,7 @@
 using namespace std;
 
 const int ENDLIST = -1;
+
 // Enums declaration
 enum ErrorType
 {

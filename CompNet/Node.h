@@ -3,26 +3,30 @@
 
 class ItemType;
 
+//Node class for stack
 class Node
 {
-public:
-	ItemType* item;
-	Node*     next;
+private:
+	ItemType* m_item; //Data in this node
+	Node*     m_next; //Next one in line
 
+public:
 	// C'tors
-	Node(ItemType* item = nullptr, Node* next = nullptr); 
-	Node(const Node&) = delete;
-	Node(Node&&) = default;
-	~Node() = default;
-	// Methods
-	void insertAfter(Node* node);
-	Node* deleteAfter();
+	 Node(ItemType* m_item = nullptr, Node* next = nullptr); 
+	 Node(const Node&)   = delete;
+	 Node(Node&&)        = default;
+	~Node()              = default;
+	
 	// Setters
-	void setitem(ItemType* item);
+	void setitem (ItemType* m_item);
+
 	// Getters
 	ItemType* getItem() const;
-	Node* getNext() const;
+	Node*     getNext() const;
 
+	// Methods
+	void  insertAfter(Node* node);
+	Node* deleteAfter();
 };
 
 #endif // __NODE_H

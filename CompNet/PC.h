@@ -4,28 +4,29 @@
 #include "Utils.h"
 #include "DynamicList.h"
 
+//Class that holds the compters in the computer network array
 class PC
 {
 private:
-	DynamicList  m_list;
-	const int    m_PCNum;
-	static int   items;
+	static int  items;   //m_item counter, static variable to appoint as computer number
+
+	DynamicList m_list;  //List of all the connections of this computer
+	const int   m_PCNum; //This computer's appointed number
 
 public:
-	// C'tors
-	 PC(); 
- 	 PC(const PC&) = delete;
- 	 PC(PC&&)      = delete;
-	 ~PC(); // create with deletion of nodes
+	// C'tors, no copy or move
+	  PC(); 
+ 	  PC(const PC&) = delete;
+ 	  PC(PC&&)      = delete;
+	 ~PC();
 	// Getters
-	const int getPCNum() const;
-	DynamicList* getList();
+	const int    getPCNum() const;
+	DynamicList& getList ();
 
-	//Methods
+	// Methods
 	void addItemToEndOfList(PC* pc);
 
 	// Operators
 	bool operator==(const PC &other) const;
-
 };
 #endif // __PC_H

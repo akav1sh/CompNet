@@ -5,7 +5,7 @@ ListNode::ListNode(PC* pc, int next) // C'tor
 {
 }
 
-void ListNode::setPc(PC* pc)
+void ListNode::setPC(PC* pc)
 {
 	this->m_pc = pc;
 }
