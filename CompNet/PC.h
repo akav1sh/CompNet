@@ -8,7 +8,7 @@
 class PC
 {
 private:
-	static int  items;   //m_item counter, static variable to appoint as computer number
+	static int  items;   //Item counter, static variable to appoint as computer number
 
 	DynamicList m_list;  //List of all the connections of this computer
 	const int   m_PCNum; //This computer's appointed number

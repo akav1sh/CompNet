@@ -12,13 +12,13 @@ private:
 
 public:
 	// C'tors
-	 Node(ItemType* m_item = nullptr, Node* next = nullptr); 
+	 Node(ItemType* item = nullptr, Node* next = nullptr); 
 	 Node(const Node&)   = delete;
 	 Node(Node&&)        = default;
 	~Node()              = default;
 	
 	// Setters
-	void setitem (ItemType* m_item);
+	void setItem (ItemType* item);
 
 	// Getters
 	ItemType* getItem() const;

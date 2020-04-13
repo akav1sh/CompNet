@@ -1,31 +1,32 @@
 #include "DynamicList.h"
 
+//-------------------------------------------------------------------------------------------//
 DynamicList::DynamicList()
 {
 	this->m_head = this->m_tail = nullptr;
 }
-
+//-------------------------------------------------------------------------------------------//
 DynamicList::~DynamicList()
 {
 }
-
-ItemType * DynamicList::getHead() const
+//-------------------------------------------------------------------------------------------//
+Node* DynamicList::getHead() const
 {
 	return this->m_head;
 }
-
-ItemType * DynamicList::getTail() const
+//-------------------------------------------------------------------------------------------//
+Node* DynamicList::getTail() const
 {
 	return this->m_tail;
 }
-
-void DynamicList::setHead(ItemType* head)
+//-------------------------------------------------------------------------------------------//
+void DynamicList::setHead(Node* head)
 {
 	this->m_head = head;
 }
-
-void DynamicList::setTail(ItemType * tail)
+//-------------------------------------------------------------------------------------------//
+void DynamicList::setTail(Node* tail)
 {
 	this->m_tail = tail;
 }
-
+//-------------------------------------------------------------------------------------------//

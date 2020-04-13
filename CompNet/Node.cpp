@@ -5,7 +5,7 @@ Node::Node(ItemType* item, Node* next) // C'tor
 {
 }
 //-------------------------------------------------------------------------------------------//
-void Node::setitem(ItemType* item)
+void Node::setItem(ItemType* item)
 {
 	this->m_item = item;
 }

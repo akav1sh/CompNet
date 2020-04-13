@@ -1,22 +1,23 @@
 #include "ComputerNetwork.h"
 
+//-------------------------------------------------------------------------------------------------//
 ComputerNetwork::ComputerNetwork(int sizeOfArr)
 	: m_sizeOfArr(sizeOfArr), m_PCArr(nullptr), m_accessiblePCs(sizeOfArr), m_mainPC(NULL)
 {
-	m_PCArr = new PC[sizeOfArr];
-	m_colorArr = new eCOLOR[sizeOfArr](); // set all PCs to zero which is white.
+	m_PCArr    = new ItemType[sizeOfArr];
+	m_colorArr = new eCOLOR  [sizeOfArr](); // set all PCs to zero which is white.
 }
-
+//-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::setMainPC(int pc)
 {
 	m_mainPC = pc;
 }
-
-PC* ComputerNetwork::getPCArr()
+//-------------------------------------------------------------------------------------------------//
+ItemType* ComputerNetwork::getPCArr()
 {
 	return this->m_PCArr;
 }
-
+//-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::findAccessible(const string& func)
 {
 	if (func == "Recursive")
@@ -26,81 +27,85 @@ void ComputerNetwork::findAccessible(const string& func)
 	else
 		exit(INVALID_INPUT_ERROR);
 
+	StaticList newList(m_sizeOfArr);
+	this->m_accessiblePCs = newList;
 	//TODO clean all
 }
-
+//-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::findAccessibleRec(int mainPC)
 {
 	this->m_colorArr[mainPC - 1] = BLACK;
 	this->m_accessiblePCs.addItemToEndOfList(&this->m_PCArr[mainPC - 1]);
-	ItemType* nextConnection = this->m_PCArr[mainPC - 1].getList().getHead();
+	Node* nextConnection = this->m_PCArr[mainPC - 1].getList().getHead();
 
 	while(nextConnection)
 	{
-		int newMain = nextConnection->getPC()->getPCNum();
+		int newMain = nextConnection->getItem()->getPCNum();
 		
 		nextConnection = nextConnection->getNext();
 
 		if(this->m_colorArr[newMain - 1] == WHITE)
 			findAccessibleRec(newMain);
-
 	}
 }
-
+//-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::findAccessibleItr(int mainPC)
 {
 	Stack stack;
 	bool returnFromRecursion = false;
 
-	ItemType* currentItem = new ItemType(&this->m_PCArr[mainPC - 1]);
+	Node* currentNode = new Node(&this->m_PCArr[mainPC - 1]);
 
 	do
 	{
 		if (returnFromRecursion)
-			currentItem = stack.pop();
+			currentNode->setItem(stack.pop());
 
-		if (this->m_colorArr[currentItem->getPC()->getPCNum() - 1] == WHITE)
+		if (this->m_colorArr[currentNode->getItem()->getPCNum() - 1] == WHITE)
 		{
-			this->m_colorArr[currentItem->getPC()->getPCNum() - 1] = BLACK;
-			this->m_accessiblePCs.addItemToEndOfList(currentItem->getPC());
+			this->m_colorArr[currentNode->getItem()->getPCNum() - 1] = BLACK;
+			this->m_accessiblePCs.addItemToEndOfList(currentNode->getItem());
 		}
 
-		if (currentItem->getPlace() == ItemType::START)
+		if (currentNode->getItem()->getPlace() == ItemType::START)
 		{
-			currentItem->setPlace(ItemType::AFTER_FIRST);
-			if (currentItem->getPC()->getList().getHead())
+			currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
+			if (currentNode->getItem()->getList().getHead())
 			{
-				currentItem->setPC(currentItem->getPC()->getList().getHead()->getPC());
+				currentNode = currentNode->getItem()->getList().getHead();
 				returnFromRecursion = true;
-				stack.push(currentItem);
+				stack.push(currentNode->getItem()); //Maybe stack should take node
 			}
 			else
 				returnFromRecursion = false;
 		}
 		else // AFTER_FIRST
 		{
-			if (currentItem->getNext() == nullptr)
+			if (currentNode->getNext() == nullptr)
 			{
-				currentItem->setPlace(ItemType::START);
+				currentNode->getItem()->setPlace(ItemType::START);
 			}
 			else
 			{
-				currentItem->setPlace(ItemType::AFTER_FIRST);
-				currentItem->setPC(currentItem->getNext()->getPC());
+				currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
+				currentNode = currentNode->getNext();
 			}
 			returnFromRecursion = true;
-			stack.push(currentItem);
+			stack.push(currentNode->getItem());
 		}
 	} while (!stack.isEmpty());
-}
 
+	delete currentNode;
+}
+//-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::printAccessibles()
 {
 	int next = m_accessiblePCs.getHeadList();
 
 	while (next != ENDLIST)
 	{
-		cout << m_accessiblePCs.getArray()[next].getPC()->getPCNum() << ' ';
+		cout << m_accessiblePCs.getArray()[next].getItem()->getPCNum() << ' ';
 		next = m_accessiblePCs.getArray()[next].getNext();
 	}
 }
+//-------------------------------------------------------------------------------------------------//

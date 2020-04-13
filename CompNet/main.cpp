@@ -16,9 +16,7 @@ void main()
 		if (masterPC <= 0 || slavePC <= 0)
 			exit(INVALID_INPUT_ERROR);
 		
-		PC* slaveItem = &net.getPCArr()[slavePC - 1];
-
-		net.getPCArr()[masterPC - 1].addItemToEndOfList(slaveItem);
+		net.getPCArr()[masterPC - 1].addItemToEndOfList(&net.getPCArr()[slavePC - 1]);
 	}
 	
 	cin >> mainPC;

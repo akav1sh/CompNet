@@ -2,8 +2,7 @@
 #define __ITEMTYPE_H
 
 #include "Utils.h"
-#include "Node.h"
-class PC;
+#include "DynamicList.h"
 
 //Class as requested in the assignment 
 class ItemType
@@ -12,29 +11,32 @@ public:
 	enum ePlace { START, AFTER_FIRST };
 
 private:
-	ePlace    m_plcLine; //To know our place in line of the non recursive function
-	PC*       m_pc;      //Pointer to a computer in the pc network
-	ItemType* m_next; ///Want to delete next
+	ePlace      m_plcLine; //To know our place in line of the non recursive function
+	DynamicList m_list;    //List of all the connections of this computer
+	const int   m_PCNum;   //This computer's appointed number
+
+	static int  items;   //Item counter, static variable to appoint as computer number
 
 public:
 	// C'tors
-	 ItemType(PC* pc = nullptr, ePlace plc = START, ItemType* next = nullptr);
-	 ItemType(const ItemType&) = delete;
-	 ItemType(ItemType&& other);
+	 ItemType( ePlace plc = START);
+	 ItemType(const ItemType&)  = delete;
+	 ItemType(ItemType&& other) = default;
 	~ItemType(); /// create with deletion of nodes
 
 	//Getters
-	PC*       getPC    () const;
-	ItemType* getNext  () const; 
-	ePlace&   getPlace ();
+	ePlace&      getPlace ();
+	const int    getPCNum () const;
+	DynamicList& getList  ();
 
 	//Setters
-	void setNext  (ItemType* next);
 	void setPlace (const ePlace& newPlc);
-	void setPC    (PC* newPC);
+
+	// Methods
+	void addItemToEndOfList(ItemType* pc);
 
 	//Operators
-	const ItemType& operator=(ItemType&& other);
+	bool operator==(const ItemType &other) const;
 
 };
 #endif // __ITEMTYPE_H

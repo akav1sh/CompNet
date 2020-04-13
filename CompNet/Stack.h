@@ -19,7 +19,7 @@ public:
 	// Stack methods
 	void makeEmpty ();
 	bool isEmpty   () const;
-	void push      (ItemType* m_item);
+	void push      (ItemType* item);
 	ItemType* pop  ();
 	ItemType* top  () const;
 };

@@ -31,9 +31,9 @@ bool Stack::isEmpty() const
 }
 //-------------------------------------------------------------//
 // Push m_item into the stack
-void Stack::push(ItemType* m_item)
+void Stack::push(ItemType* item)
 {
-	this->m_topOfStack = new Node(m_item, m_topOfStack);
+	this->m_topOfStack = new Node(item, m_topOfStack);
 }
 //-------------------------------------------------------------//
 // Pop top m_item and return it

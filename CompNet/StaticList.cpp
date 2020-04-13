@@ -43,7 +43,7 @@ int StaticList::getSize()
 	return this->m_size;
 }
 //-------------------------------------------------------------------------------------------//
-void StaticList::addItemToEndOfList(PC* pc) //As described in the book adding items to a static list
+void StaticList::addItemToEndOfList(ItemType* item) //As described in the book adding items to a static list
 {
 	int locNew, index, prevIndex;
 	
@@ -66,7 +66,7 @@ void StaticList::addItemToEndOfList(PC* pc) //As described in the book adding it
 	}
 
 	//Set the computer and next is end now
-	this->m_array[locNew].m_pc = pc;
+	this->m_array[locNew].m_item = item;
 	this->m_array[locNew].m_next = ENDLIST;
 }
 //-------------------------------------------------------------------------------------------//

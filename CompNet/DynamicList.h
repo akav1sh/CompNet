@@ -1,27 +1,27 @@
 #ifndef __DYNAMICLIST_H
 #define __DYNAMICLIST_H
 
-#include "ItemType.h"
+#include "Node.h"
 
 class DynamicList
 {
 private:
-	ItemType* m_head; //Want to change to node
-	ItemType* m_tail;
+	Node* m_head; //Want to change to node
+	Node* m_tail;
 public:
 	// C'tors
-	DynamicList();
-	DynamicList(const DynamicList&) = delete;
-	DynamicList(DynamicList&&) = delete;
-	~DynamicList();
+	 DynamicList ();
+	 DynamicList (const DynamicList&) = delete;
+	 DynamicList (DynamicList&&)      = delete;
+	~DynamicList ();
 	
 	//Getters
-	ItemType* getHead() const;
-	ItemType* getTail() const;
+	Node* getHead () const;
+	Node* getTail () const;
 
 	//Setters
-	void setHead(ItemType* head);
-	void setTail(ItemType* tail);
+	void setHead (Node* head);
+	void setTail (Node* tail);
 
 };
 

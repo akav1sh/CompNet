@@ -2,8 +2,7 @@
 #define __STATICLIST_H
 
 #include "Utils.h"
-
-class PC;
+#include "ItemType.h"
 
 //List as asked in the assignment, static with an array that we allocate dynamically in size requested
 class StaticList
@@ -15,17 +14,17 @@ private:
 	private:
 		friend class StaticList;
 
-		PC* m_pc;
+		ItemType* m_item;
 		int m_next;
 
-		 ListNode(PC* pc = nullptr, int next = -1) : m_pc(pc), m_next(next) {}
+		 ListNode(ItemType* item = nullptr, int next = -1) : m_item(item), m_next(next) {}
 		 ListNode(const ListNode& other)     = delete; // Disable copy c'tor
 		 ListNode(ListNode&&)                = delete;
 		~ListNode()                          = default;
 
 	public:
-		PC* getPC   () const { return m_pc;   }
-		int getNext () const { return m_next; }
+		ItemType* getItem () const { return m_item; }
+		int       getNext () const { return m_next; }
 	};
 
 private:
@@ -38,7 +37,7 @@ public:
 	// C'tors
 	 StaticList(int size);
 	 StaticList(const StaticList&) = delete;
-	 StaticList(StaticList&&)      = delete;
+	 StaticList(StaticList&&)      = default;
 	~StaticList();
 
 	//Getters
@@ -48,7 +47,7 @@ public:
 	int       getSize     ();
 
 	// Methods
-	void addItemToEndOfList(PC* pc);
+	void addItemToEndOfList(ItemType* item);
 };
 
 #endif // __STATICLIST_H

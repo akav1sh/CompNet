@@ -1,31 +1,13 @@
 #include "ItemType.h"
-
+int ItemType::items = 0;
 //-------------------------------------------------------------------------------------------//
-ItemType::ItemType(PC* pc, ePlace plc, ItemType* next) : m_pc(pc), m_next(next), m_plcLine(plc)
+ItemType::ItemType(ePlace plc) : m_PCNum(++items), m_plcLine(plc)
 {	
-}
-//-------------------------------------------------------------------------------------------//
-ItemType::ItemType(ItemType&& other)
-{
-	this->m_next    = other.m_next;
-	this->m_plcLine = other.m_plcLine;
-	this->m_pc      = other.m_pc;
-	other.m_next    = nullptr;
-	other.m_pc      = nullptr;
 }
 //-------------------------------------------------------------------------------------------//
 ItemType::~ItemType()  //TODO D'Tor
 {
-}
-//-------------------------------------------------------------------------------------------//
-PC* ItemType::getPC() const
-{
-	return this->m_pc;
-}
-//-------------------------------------------------------------------------------------------//
-ItemType* ItemType::getNext() const
-{
-	return this->m_next;
+	//Delete nodes 
 }
 //-------------------------------------------------------------------------------------------//
 ItemType::ePlace& ItemType::getPlace()
@@ -33,28 +15,56 @@ ItemType::ePlace& ItemType::getPlace()
 	return this->m_plcLine;
 }
 //-------------------------------------------------------------------------------------------//
-void ItemType::setNext(ItemType* next)
-{
-	this->m_next = next;
-}
-//-------------------------------------------------------------------------------------------//
 void ItemType::setPlace(const ePlace& newPlc)
 {
 	this->m_plcLine = newPlc;
 }
 //-------------------------------------------------------------------------------------------//
-void ItemType::setPC(PC* newPC)
+bool ItemType::operator==(const ItemType & other) const
 {
-	this->m_pc = newPC;
+	return (this->m_PCNum == other.m_PCNum);
 }
 //-------------------------------------------------------------------------------------------//
-const ItemType& ItemType::operator=(ItemType&& other)
+const int ItemType::getPCNum() const
 {
-	this->m_next    = other.m_next;
-	this->m_plcLine = other.m_plcLine;
-	this->m_pc      = other.m_pc;
-	other.m_next    = nullptr;
-	other.m_pc      = nullptr;
-	return *this;
+	return this->m_PCNum;
+}
+//-------------------------------------------------------------------------------------------//
+DynamicList& ItemType::getList()
+{
+	return this->m_list;
+}
+//-------------------------------------------------------------------------------------------//
+void ItemType::addItemToEndOfList(ItemType* item)
+{
+	Node *prev = this->m_list.getHead();
+	Node *curr = prev;
+
+	//Go over the connection list
+	while (curr)
+	{
+		//If this computer is already on the list, return
+		if (*curr->getItem() == *item)
+		{
+			return;
+		}
+		prev = curr;
+		curr = curr->getNext();
+	}
+
+	//Create and add the computer to the list
+	Node *newItem = new Node(item);
+
+	if (!this->m_list.getHead() && !this->m_list.getTail()) //Both head and tail are nullptr
+	{
+		this->getList().setHead(newItem);
+		this->getList().setTail(newItem);
+	}
+
+	else
+	{
+		this->getList().getTail()->insertAfter(newItem);
+		this->getList().setTail(newItem);
+	}
 }
 //-------------------------------------------------------------------------------------------//
