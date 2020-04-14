@@ -4,6 +4,10 @@ Node::Node(ItemType* item, Node* next) // C'tor
 	: m_item(item), m_next(next)
 {
 }
+Node::~Node()
+{
+	this->m_item = nullptr;
+}
 //-------------------------------------------------------------------------------------------//
 void Node::setItem(ItemType* item)
 {

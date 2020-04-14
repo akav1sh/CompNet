@@ -19,6 +19,7 @@ private:
 public:
 	//C'tors
 	ComputerNetwork(int sizeOfArr);
+	~ComputerNetwork();
 	
 	//Setters
 	void setMainPC(int pc);
@@ -31,6 +32,7 @@ public:
 	void findAccessibleRec (int mainPC);
 	void findAccessibleItr (int mainPC);
 	void printAccessibles  ();
+	void resetColorArr     ();
 };
 
 #endif // __COMPUTERNETWORK_H

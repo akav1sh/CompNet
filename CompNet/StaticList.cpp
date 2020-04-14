@@ -43,6 +43,24 @@ int StaticList::getSize()
 	return this->m_size;
 }
 //-------------------------------------------------------------------------------------------//
+void StaticList::makeEmpty()
+{
+	delete this->m_array;
+
+	this->m_array = new ListNode[this->m_size]; //Allocate array with size recieved
+
+	//Set empty list's next places
+	int i;
+	for (i = 0; i < this->m_size - 1; ++i)
+	{
+		this->m_array[i].m_next = i + 1;
+	}
+	this->m_array[i].m_next = ENDLIST;
+
+	this->m_headFree = 0;
+	this->m_headList = ENDLIST; //List doesn't exist yet so head is set to end
+}
+//-------------------------------------------------------------------------------------------//
 void StaticList::addItemToEndOfList(ItemType* item) //As described in the book adding items to a static list
 {
 	int locNew, index, prevIndex;

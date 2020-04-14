@@ -8,9 +8,15 @@ ComputerNetwork::ComputerNetwork(int sizeOfArr)
 	m_colorArr = new eCOLOR  [sizeOfArr](); // set all PCs to zero which is white.
 }
 //-------------------------------------------------------------------------------------------------//
+ComputerNetwork::~ComputerNetwork()
+{
+	delete this->m_PCArr;
+	delete this->m_colorArr;
+}
+//-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::setMainPC(int pc)
 {
-	m_mainPC = pc;
+	this->m_mainPC = pc;
 }
 //-------------------------------------------------------------------------------------------------//
 ItemType* ComputerNetwork::getPCArr()
@@ -27,8 +33,9 @@ void ComputerNetwork::findAccessible(const string& func)
 	else
 		exit(INVALID_INPUT_ERROR);
 
-	StaticList newList(m_sizeOfArr);
-	this->m_accessiblePCs = newList;
+	this->printAccessibles();
+	this->m_accessiblePCs.makeEmpty();
+	this->resetColorArr();
 	//TODO clean all
 }
 //-------------------------------------------------------------------------------------------------//
@@ -107,5 +114,12 @@ void ComputerNetwork::printAccessibles()
 		cout << m_accessiblePCs.getArray()[next].getItem()->getPCNum() << ' ';
 		next = m_accessiblePCs.getArray()[next].getNext();
 	}
+	cout << endl;
+}
+//-------------------------------------------------------------------------------------------------//
+void ComputerNetwork::resetColorArr()
+{
+	delete this->m_colorArr;
+	this->m_colorArr = new eCOLOR[this->m_sizeOfArr]();
 }
 //-------------------------------------------------------------------------------------------------//

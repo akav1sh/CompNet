@@ -15,7 +15,7 @@ public:
 	 Node(ItemType* item = nullptr, Node* next = nullptr); 
 	 Node(const Node&)   = delete;
 	 Node(Node&&)        = default;
-	~Node()              = default;
+	~Node();
 	
 	// Setters
 	void setItem (ItemType* item);

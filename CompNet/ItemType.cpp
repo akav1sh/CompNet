@@ -7,7 +7,17 @@ ItemType::ItemType(ePlace plc) : m_PCNum(++items), m_plcLine(plc)
 //-------------------------------------------------------------------------------------------//
 ItemType::~ItemType()  //TODO D'Tor
 {
-	//Delete nodes 
+	//Delete nodes at DynamicList
+	Node *prev = this->getList().getHead();
+	Node *curr = prev;
+
+	//Go over the list and delete nodes
+	while (curr)
+	{
+		prev = curr;
+		curr = curr->getNext();
+		delete prev;
+	}
 }
 //-------------------------------------------------------------------------------------------//
 ItemType::ePlace& ItemType::getPlace()

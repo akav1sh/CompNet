@@ -3,6 +3,8 @@
 void main()
 {
 	int size, connectionAmount, masterPC, slavePC, mainPC;
+	ItemType* x = nullptr;
+	delete x;
 
 	cin >> size;
 	ComputerNetwork net(size);
@@ -23,8 +25,6 @@ void main()
 	net.setMainPC(mainPC);
 
 	net.findAccessible("Recursive");
-	net.printAccessibles();
 
 	net.findAccessible("Iterative");
-	net.printAccessibles();
 }

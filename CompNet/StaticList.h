@@ -47,6 +47,7 @@ public:
 	int       getSize     ();
 
 	// Methods
+	void makeEmpty();
 	void addItemToEndOfList(ItemType* item);
 };
 
