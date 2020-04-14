@@ -61,7 +61,8 @@ void ComputerNetwork::findAccessibleItr(int mainPC)
 	Stack stack;
 	bool returnFromRecursion = false;
 
-	Node* currentNode = new Node(&this->m_PCArr[mainPC - 1]);
+	Node* currentNode = new Node(&this->m_PCArr[mainPC - 1]); //Variable to go over the arrays and lists we have
+	Node* temp = currentNode; //To delete after we used this node
 
 	do
 	{
@@ -102,7 +103,7 @@ void ComputerNetwork::findAccessibleItr(int mainPC)
 		}
 	} while (!stack.isEmpty());
 
-	delete currentNode;
+	delete temp;
 }
 //-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::printAccessibles()
