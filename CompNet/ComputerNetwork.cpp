@@ -10,8 +10,8 @@ ComputerNetwork::ComputerNetwork(int sizeOfArr)
 //-------------------------------------------------------------------------------------------------//
 ComputerNetwork::~ComputerNetwork()
 {
-	delete this->m_PCArr;
-	delete this->m_colorArr;
+	delete[] this->m_PCArr;
+	delete[] this->m_colorArr;
 }
 //-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::setMainPC(int pc)

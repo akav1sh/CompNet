@@ -3,8 +3,6 @@
 void main()
 {
 	int size, connectionAmount, masterPC, slavePC, mainPC;
-	ItemType* x = nullptr;
-	delete x;
 
 	cin >> size;
 	ComputerNetwork net(size);

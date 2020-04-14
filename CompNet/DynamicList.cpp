@@ -8,16 +8,16 @@ DynamicList::DynamicList()
 //-------------------------------------------------------------------------------------------//
 DynamicList::~DynamicList()
 {
-	//Node *prev = this->m_head;
-	//Node *curr = prev;
+	Node *prev = this->m_head;
+	Node *curr = prev;
 
-	////Go over the list and delete nodes
-	//while (curr)
-	//{
-	//	prev = curr;
-	//	curr = curr->getNext();
-	//	delete prev;
-	//}
+	//Go over the list and delete nodes
+	while (curr)
+	{
+		prev = curr;
+		curr = curr->getNext();
+		delete prev;
+	}
 }
 //-------------------------------------------------------------------------------------------//
 Node* DynamicList::getHead() const

@@ -20,7 +20,7 @@ StaticList::StaticList(int size) : m_size(size)
 //-------------------------------------------------------------------------------------------//
 StaticList::~StaticList() //D'tor
 {
-	delete this->m_array;
+	delete[] this->m_array;
 }
 //-------------------------------------------------------------------------------------------//
 StaticList::ListNode* StaticList::getArray()
