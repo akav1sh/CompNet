@@ -62,7 +62,7 @@ void ComputerNetwork::findAccessibleItr(int mainPC)
 	bool returnFromRecursion = false;
 
 	Node* currentNode = new Node(&this->m_PCArr[mainPC - 1]); //Variable to go over the arrays and lists we have
-	Node* temp = currentNode; //To delete after we used this node
+	Node* nodeToDelete = currentNode; //To delete after we used this node
 
 	do
 	{
@@ -77,58 +77,61 @@ void ComputerNetwork::findAccessibleItr(int mainPC)
 				this->m_accessiblePCs.addItemToEndOfList(currentNode->getItem());
 			}
 
-			if (currentNode->getItem()->getList().getHead())
+			currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
+			stack.push(currentNode->getItem());
+
+			if (currentNode->getNext() && !currentNode->getItem()->getList().getHead())
 			{
-				currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
-				
-				if (currentNode->getNext())
-				{
-					stack.push(currentNode->getNext()->getItem());
-				}
-				else //no next
-				{
-					stack.push(currentNode->getItem());
-				}
-				currentNode = currentNode->getItem()->getList().getHead();
+				currentNode->setItem(currentNode->getNext()->getItem());
+				currentNode->setNext(currentNode->getNext()->getNext());
 			}
+
 			else
-			{
-				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
-			}
+				currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
+			
 
 			returnFromRecursion = false;
 		}
+
 		else if (currentNode->getItem()->getPlace() == ItemType::AFTER_FIRST) // AFTER_FIRST
 		{
-			/*if (currentNode->getNext() == nullptr)
+			
+			if (currentNode->getItem()->getList().getHead())
 			{
-				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
-			}*/
+					Node* nodeToInsertToStack = currentNode->getNext();
 
-			/*else */if (this->m_colorArr[currentNode->getItem()->getPCNum() - 1] == WHITE)
-			{
-				stack.push(currentNode->getItem());
-				currentNode->getItem()->setPlace(ItemType::START);
+					while (nodeToInsertToStack)
+					{
+						stack.push(nodeToInsertToStack->getItem());
+						nodeToInsertToStack = nodeToInsertToStack->getNext();
+					}
+
+				if (this->m_colorArr[currentNode->getItem()->getList().getHead()->getItem()->getPCNum() - 1] == WHITE)
+				{
+					currentNode->setNext(currentNode->getItem()->getList().getHead()->getNext());
+					currentNode->setItem(currentNode->getItem()->getList().getHead()->getItem());
+
+					returnFromRecursion = false;
+				}
+
+				else
+					returnFromRecursion = true;
 			}
 
 			else
 			{
-				if (currentNode->getNext())
-				{
-					stack.push(currentNode->getNext()->getItem());
-				}
 				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
+				returnFromRecursion = false;
 			}
-			returnFromRecursion = false;
 		}
+
 		else //AFTER_SECOND
-		{
 			returnFromRecursion = true;
-		}
+		
 
 	} while (!stack.isEmpty());
 
-	delete temp;
+	delete nodeToDelete;
 }
 //-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::printAccessibles()

@@ -15,6 +15,11 @@ void Node::setItem(ItemType* item)
 	this->m_item = item;
 }
 //-------------------------------------------------------------------------------------------//
+void Node::setNext(Node* next)
+{
+	this->m_next = next;
+}
+//-------------------------------------------------------------------------------------------//
 ItemType* Node::getItem() const
 {
 	return this->m_item;

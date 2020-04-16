@@ -19,6 +19,7 @@ public:
 	
 	// Setters
 	void setItem (ItemType* item);
+	void setNext (Node* next);
 
 	// Getters
 	ItemType* getItem() const;

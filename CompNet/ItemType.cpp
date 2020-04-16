@@ -37,6 +37,9 @@ DynamicList& ItemType::getList()
 //-------------------------------------------------------------------------------------------//
 void ItemType::addItemToEndOfList(ItemType* item)
 {
+	if (this->m_PCNum == item->m_PCNum)
+		return;
+
 	Node *prev = this->m_list.getHead();
 	Node *curr = prev;
 
