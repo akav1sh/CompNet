@@ -1,6 +1,6 @@
 #include "ComputerNetwork.h"
 
-void main()
+int main()
 {
 	int size, connectionAmount, masterPC, slavePC, mainPC;
 
@@ -13,16 +13,19 @@ void main()
 	{
 		cin >> masterPC >> slavePC;
 
-		if (masterPC <= 0 || slavePC <= 0)
-			exit(INVALID_INPUT_ERROR);
+		net.checkConnectionInput(masterPC);
+		net.checkConnectionInput(slavePC);
+
 		
 		net.getPCArr()[masterPC - 1].addItemToEndOfList(&net.getPCArr()[slavePC - 1]);
 	}
 	
 	cin >> mainPC;
+	net.checkConnectionInput(mainPC);
 	net.setMainPC(mainPC);
 
 	net.findAccessible("Recursive");
 
 	net.findAccessible("Iterative");
+	return 0;
 }

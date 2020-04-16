@@ -28,11 +28,12 @@ public:
 	ItemType* getPCArr();
 
 	//Methods
-	void findAccessible    (const string& func);
-	void findAccessibleRec (int mainPC);
-	void findAccessibleItr (int mainPC);
-	void printAccessibles  ();
-	void resetColorArr     ();
+	void findAccessible      (const string& func);
+	void findAccessibleRec   (int mainPC);
+	void findAccessibleItr   (int mainPC);
+	void printAccessibles    ();
+	void resetColorArr       ();
+	void checkConnectionInput(int pc1);
 };
 
 #endif // __COMPUTERNETWORK_H

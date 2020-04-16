@@ -2,7 +2,7 @@
 
 //-------------------------------------------------------------------------------------------------//
 ComputerNetwork::ComputerNetwork(int sizeOfArr)
-	: m_sizeOfArr(sizeOfArr), m_PCArr(nullptr), m_accessiblePCs(sizeOfArr), m_mainPC(NULL)
+	: m_sizeOfArr(sizeOfArr), m_PCArr(nullptr), m_accessiblePCs(sizeOfArr), m_mainPC(NoPC)
 {
 	m_PCArr    = new ItemType[sizeOfArr];
 	m_colorArr = new eCOLOR  [sizeOfArr](); // set all PCs to zero which is white.
@@ -66,7 +66,7 @@ void ComputerNetwork::findAccessibleItr(int mainPC)
 
 	do
 	{
-		if (returnFromRecursion)
+ 		if (returnFromRecursion)
 			currentNode->setItem(stack.pop());
 
 		if (this->m_colorArr[currentNode->getItem()->getPCNum() - 1] == WHITE)
@@ -77,30 +77,40 @@ void ComputerNetwork::findAccessibleItr(int mainPC)
 
 		if (currentNode->getItem()->getPlace() == ItemType::START)
 		{
-			currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
+
 			if (currentNode->getItem()->getList().getHead())
 			{
+				currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
+				stack.push(currentNode->getItem());
 				currentNode = currentNode->getItem()->getList().getHead();
-				returnFromRecursion = true;
-				stack.push(currentNode->getItem()); //Maybe stack should take node
+				stack.push(currentNode->getItem()); 
+				returnFromRecursion = false;
 			}
 			else
-				returnFromRecursion = false;
+			{
+				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
+				returnFromRecursion = true;
+			}
+				
 		}
-		else // AFTER_FIRST
+		else if (currentNode->getItem()->getPlace() == ItemType::AFTER_FIRST) // AFTER_FIRST
 		{
 			if (currentNode->getNext() == nullptr)
 			{
-				currentNode->getItem()->setPlace(ItemType::START);
+				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
 			}
 			else
 			{
-				currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
+				//currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
+				stack.push(currentNode->getItem());
 				currentNode = currentNode->getNext();
 			}
-			returnFromRecursion = true;
 			stack.push(currentNode->getItem());
+			returnFromRecursion = true;
 		}
+		else //AFTER_SECOND
+			returnFromRecursion = true;
+
 	} while (!stack.isEmpty());
 
 	delete temp;
@@ -124,3 +134,11 @@ void ComputerNetwork::resetColorArr()
 	this->m_colorArr = new eCOLOR[this->m_sizeOfArr]();
 }
 //-------------------------------------------------------------------------------------------------//
+void ComputerNetwork::checkConnectionInput(int pc1)
+{
+	if (pc1 <= 0 || pc1 > this->m_sizeOfArr)
+	{
+		cout << "no such computer " << pc1 << endl;
+		exit(INVALID_INPUT_ERROR);
+	}
+}

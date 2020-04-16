@@ -10,6 +10,7 @@
 using namespace std;
 
 const int ENDLIST = -1;
+const int NoPC = 0;
 
 // Enums declaration
 enum ErrorType

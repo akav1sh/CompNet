@@ -8,7 +8,7 @@
 class ItemType
 {
 public:
-	enum ePlace { START, AFTER_FIRST };
+	enum ePlace { START, AFTER_FIRST, AFTER_SECOND };
 
 private:
 	ePlace      m_plcLine; //To know our place in line of the non recursive function
