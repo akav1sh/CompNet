@@ -69,47 +69,62 @@ void ComputerNetwork::findAccessibleItr(int mainPC)
  		if (returnFromRecursion)
 			currentNode->setItem(stack.pop());
 
-		if (this->m_colorArr[currentNode->getItem()->getPCNum() - 1] == WHITE)
-		{
-			this->m_colorArr[currentNode->getItem()->getPCNum() - 1] = BLACK;
-			this->m_accessiblePCs.addItemToEndOfList(currentNode->getItem());
-		}
-
 		if (currentNode->getItem()->getPlace() == ItemType::START)
 		{
+			if (this->m_colorArr[currentNode->getItem()->getPCNum() - 1] == WHITE)
+			{
+				this->m_colorArr[currentNode->getItem()->getPCNum() - 1] = BLACK;
+				this->m_accessiblePCs.addItemToEndOfList(currentNode->getItem());
+			}
 
 			if (currentNode->getItem()->getList().getHead())
 			{
 				currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
-				stack.push(currentNode->getItem());
+				
+				if (currentNode->getNext())
+				{
+					stack.push(currentNode->getNext()->getItem());
+				}
+				else //no next
+				{
+					stack.push(currentNode->getItem());
+				}
 				currentNode = currentNode->getItem()->getList().getHead();
-				stack.push(currentNode->getItem()); 
-				returnFromRecursion = false;
 			}
 			else
 			{
 				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
-				returnFromRecursion = true;
 			}
-				
+
+			returnFromRecursion = false;
 		}
 		else if (currentNode->getItem()->getPlace() == ItemType::AFTER_FIRST) // AFTER_FIRST
 		{
-			if (currentNode->getNext() == nullptr)
+			/*if (currentNode->getNext() == nullptr)
 			{
 				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
+			}*/
+
+			/*else */if (this->m_colorArr[currentNode->getItem()->getPCNum() - 1] == WHITE)
+			{
+				stack.push(currentNode->getItem());
+				currentNode->getItem()->setPlace(ItemType::START);
 			}
+
 			else
 			{
-				//currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
-				stack.push(currentNode->getItem());
-				currentNode = currentNode->getNext();
+				if (currentNode->getNext())
+				{
+					stack.push(currentNode->getNext()->getItem());
+				}
+				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
 			}
-			stack.push(currentNode->getItem());
-			returnFromRecursion = true;
+			returnFromRecursion = false;
 		}
 		else //AFTER_SECOND
+		{
 			returnFromRecursion = true;
+		}
 
 	} while (!stack.isEmpty());
 
