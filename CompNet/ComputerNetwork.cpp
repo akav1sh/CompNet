@@ -41,7 +41,7 @@ void ComputerNetwork::findAccessible(const string& func)
 //-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::findAccessibleRec(int mainPC)
 {
-	this->m_colorArr[mainPC - 1] = BLACK;
+	this->m_colorArr[mainPC - 1] = BLACK;									//start
 	this->m_accessiblePCs.addItemToEndOfList(&this->m_PCArr[mainPC - 1]);
 	Node* nextConnection = this->m_PCArr[mainPC - 1].getList().getHead();
 
@@ -52,69 +52,122 @@ void ComputerNetwork::findAccessibleRec(int mainPC)
 		nextConnection = nextConnection->getNext();
 
 		if(this->m_colorArr[newMain - 1] == WHITE)
-			findAccessibleRec(newMain);
+			findAccessibleRec(newMain);                                    // after first
 	}
 }
 //-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::findAccessibleItr(int mainPC)
 {
-	Stack stack;
-	bool returnFromRecursion = false;
-
-	Node* currentNode = new Node(&this->m_PCArr[mainPC - 1]); //Variable to go over the arrays and lists we have
+	Stack stack; // Stack which simulates the recursion.
+	Node* currentNode = new Node(&this->m_PCArr[mainPC - 1]); // Values of current “recursive call”
+	Node* Next; // Values of next “recursive call”.
 	Node* temp = currentNode; //To delete after we used this node
 
-	do
+	stack.push(currentNode->getItem());
+	while (!stack.isEmpty()) 
 	{
- 		if (returnFromRecursion)
-			currentNode->setItem(stack.pop());
-
-		if (this->m_colorArr[currentNode->getItem()->getPCNum() - 1] == WHITE)
-		{
-			this->m_colorArr[currentNode->getItem()->getPCNum() - 1] = BLACK;
-			this->m_accessiblePCs.addItemToEndOfList(currentNode->getItem());
-		}
-
+		currentNode->setItem(stack.pop());
 		if (currentNode->getItem()->getPlace() == ItemType::START)
 		{
-
-			if (currentNode->getItem()->getList().getHead())
+			if (this->m_colorArr[currentNode->getItem()->getPCNum() - 1] == WHITE)
+			{
+				this->m_colorArr[currentNode->getItem()->getPCNum() - 1] = BLACK;
+				this->m_accessiblePCs.addItemToEndOfList(currentNode->getItem());
+			}
+			if (currentNode->getItem()->getList().getHead() == nullptr)
+			{
+				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
+				stack.push(currentNode->getItem());
+			}
+			else 
 			{
 				currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
 				stack.push(currentNode->getItem());
-				currentNode = currentNode->getItem()->getList().getHead();
-				stack.push(currentNode->getItem()); 
-				returnFromRecursion = false;
+				Next = currentNode->getItem()->getList().getHead();
+				stack.push(Next->getItem());
 			}
-			else
-			{
-				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
-				returnFromRecursion = true;
-			}
-				
 		}
-		else if (currentNode->getItem()->getPlace() == ItemType::AFTER_FIRST) // AFTER_FIRST
+		else if (currentNode->getItem()->getPlace() == ItemType::AFTER_FIRST)
 		{
-			if (currentNode->getNext() == nullptr)
-			{
-				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
-			}
-			else
-			{
-				//currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
-				stack.push(currentNode->getItem());
-				currentNode = currentNode->getNext();
-			}
+			currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
 			stack.push(currentNode->getItem());
-			returnFromRecursion = true;
+			if (currentNode->getItem()->getList().getHead() != nullptr)
+			{
+				if (currentNode->getItem()->getList().getHead()->getNext() != nullptr)
+				{
+					Next = currentNode->getItem()->getList().getHead()->getNext();
+					stack.push(Next->getItem());
+				}
+			}
 		}
-		else //AFTER_SECOND
-			returnFromRecursion = true;
-
-	} while (!stack.isEmpty());
-
-	delete temp;
+		else if (currentNode->getItem()->getPlace() == ItemType::AFTER_SECOND)
+		{
+			// In this case do nothing.
+		}
+	}
 }
+//{
+//	Stack stack;
+//	bool returnFromRecursion = false;
+//
+//	Node* currentNode = new Node(&this->m_PCArr[mainPC - 1]); //Variable to go over the arrays and lists we have
+//	Node* temp = currentNode; //To delete after we used this node
+//
+//	do
+//	{
+// 		if (returnFromRecursion)
+//			currentNode->setItem(stack.pop());
+//
+//		/*if (this->m_colorArr[currentNode->getItem()->getPCNum() - 1] == WHITE)
+//		{
+//			this->m_colorArr[currentNode->getItem()->getPCNum() - 1] = BLACK;
+//			this->m_accessiblePCs.addItemToEndOfList(currentNode->getItem());
+//		}*/
+//
+//		if (currentNode->getItem()->getPlace() == ItemType::START)
+//		{
+//			if (this->m_colorArr[currentNode->getItem()->getPCNum() - 1] == WHITE)
+//			{
+//				this->m_colorArr[currentNode->getItem()->getPCNum() - 1] = BLACK;
+//				this->m_accessiblePCs.addItemToEndOfList(currentNode->getItem());
+//			}
+//
+//			if (currentNode->getItem()->getList().getHead())
+//			{
+//				currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
+//				stack.push(currentNode->getItem());
+//				currentNode = currentNode->getItem()->getList().getHead();
+//				stack.push(currentNode->getItem()); 
+//				returnFromRecursion = true;
+//			}
+//			else
+//			{
+//				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
+//				returnFromRecursion = false;
+//			}
+//				
+//		}
+//		else if (currentNode->getItem()->getPlace() == ItemType::AFTER_FIRST) // AFTER_FIRST
+//		{
+//			if (currentNode->getItem()->getList().getHead()->getNext() == nullptr)
+//			{
+//				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
+//			}
+//			else
+//			{
+//				//currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
+//				currentNode = currentNode->getItem()->getList().getHead()->getNext();
+//			}
+//			stack.push(currentNode->getItem());
+//			returnFromRecursion = false;
+//		}
+//		else //AFTER_SECOND
+//			returnFromRecursion = true;
+//
+//	} while (!stack.isEmpty());
+//
+//	delete temp;
+//}
 //-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::printAccessibles()
 {
