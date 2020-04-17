@@ -2,19 +2,18 @@
 #define __ITEMTYPE_H
 
 #include "Utils.h"
-//#include "DynamicList.h"
 
 //Class as requested in the assignment 
 class ItemType
 {
 public:
-	enum ePlace { START, AFTER_FIRST, AFTER_SECOND };
+	enum ePlace { START, AFTER_FIRST };
 
 private:
-	ePlace      m_plcLine; //To know our place in line of the non recursive function
-	//DynamicList m_list;    //List of all the connections of this computer
-	const int   m_PCNum;   //This computer's appointed number
-	ItemType*   m_next;
+	ePlace    m_plcLine; //To know our place in line of the non recursive function
+	const int m_PCNum;   //This computer's appointed number
+	ItemType* m_next;
+
 	static int  items;   //Item counter, static variable to appoint as computer number
 
 public:
@@ -22,17 +21,16 @@ public:
 	 ItemType( ePlace plc = START);
 	 ItemType(const ItemType& other);
 	 ItemType(ItemType&& other) = default;
-	~ItemType(); /// create with deletion of nodes
+	~ItemType()                 = default;
 
 	//Getters
 	ePlace&      getPlace ();
 	const int    getPCNum () const;
-	//DynamicList& getList  ();
-	ItemType*   getNext();
+	ItemType*   getNext   ();
 
 	//Setters
 	void setPlace (const ePlace& newPlc);
-	void setNext(ItemType* next);
+	void setNext  (ItemType* next);
 	// Methods
 	void addItemToEndOfList(ItemType* pc);
 

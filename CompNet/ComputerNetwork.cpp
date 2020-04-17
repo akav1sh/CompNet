@@ -33,10 +33,11 @@ void ComputerNetwork::findAccessible(const string& func)
 	else
 		exit(INVALID_INPUT_ERROR);
 
+	//Print at the end of function
 	this->printAccessibles();
+	//Clear the lists and array
 	this->m_accessiblePCs.makeEmpty();
 	this->resetColorArr();
-	//TODO clean all
 }
 //-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::findAccessibleRec(int mainPC)
@@ -70,7 +71,6 @@ void ComputerNetwork::findAccessibleItr(int mainPC)
 		if (returnFromRecursion)
 			currentItem = stack.pop();
 		
-
 		if (currentItem->getPlace() == ItemType::START)
 		{
 
@@ -79,13 +79,11 @@ void ComputerNetwork::findAccessibleItr(int mainPC)
 				this->m_colorArr[currentItem->getPCNum() - 1] = BLACK;
 				this->m_accessiblePCs.addItemToEndOfList(currentItem);
 				currentItem->setPlace(ItemType::AFTER_FIRST);
+				returnFromRecursion = false;
 			}
 
-			
 			else
-				currentItem->setPlace(ItemType::AFTER_SECOND);
-
-			returnFromRecursion = false;
+				returnFromRecursion = true;
 		}
 
 		else if (currentItem->getPlace() == ItemType::AFTER_FIRST)
@@ -98,25 +96,21 @@ void ComputerNetwork::findAccessibleItr(int mainPC)
 					currentItem->setPlace(ItemType::AFTER_FIRST);
 				}
 
-				if(this->m_colorArr[currentItem->getPCNum() - 1] == BLACK)
-					currentItem->setPlace(ItemType::AFTER_SECOND);
+				if (this->m_colorArr[currentItem->getPCNum() - 1] == BLACK)
+					returnFromRecursion = true;
 
 				else
 				{
 					stack.push(currentItem);
 					currentItem = &this->m_PCArr[currentItem->getPCNum() - 1];
+					returnFromRecursion = false;
 				}
 			}
 
 
 			else
-				currentItem->setPlace(ItemType::AFTER_SECOND);
-
-			returnFromRecursion = false;
+				returnFromRecursion = true;
 		}
-
-		else //AFTER_SECOND
-			returnFromRecursion = true;
 
 	} while (!stack.isEmpty());
 
@@ -148,3 +142,5 @@ void ComputerNetwork::checkConnectionInput(int pc1)
 		exit(INVALID_INPUT_ERROR);
 	}
 }
+//-------------------------------------------------------------------------------------------------//
+

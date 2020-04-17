@@ -12,9 +12,9 @@ public:
 private:
 	ItemType*  m_PCArr;
 	const int  m_sizeOfArr;
-	StaticList m_accessiblePCs;       //Clean at end of func
+	StaticList m_accessiblePCs;       
 	int        m_mainPC;
-	eCOLOR*    m_colorArr;            //Clean at end of func
+	eCOLOR*    m_colorArr;            
 
 public:
 	//C'tors
