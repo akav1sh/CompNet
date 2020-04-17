@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComputerNetwork.h" />
-    <ClInclude Include="DynamicList.h" />
     <ClInclude Include="ItemType.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="StaticList.h" />
@@ -29,7 +28,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ComputerNetwork.cpp" />
-    <ClCompile Include="DynamicList.cpp" />
     <ClCompile Include="ItemType.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="StaticList.cpp" />

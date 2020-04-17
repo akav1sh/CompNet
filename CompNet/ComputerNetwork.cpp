@@ -43,17 +43,18 @@ void ComputerNetwork::findAccessibleRec(int mainPC)
 {
 	this->m_colorArr[mainPC - 1] = BLACK;
 	this->m_accessiblePCs.addItemToEndOfList(&this->m_PCArr[mainPC - 1]);
-	Node* nextConnection = this->m_PCArr[mainPC - 1].getList().getHead();
+	ItemType* nextConnection = this->m_PCArr[mainPC - 1].getNext();
 
 	while(nextConnection)
 	{
-		int newMain = nextConnection->getItem()->getPCNum();
+		int newMain = nextConnection->getPCNum();
 		
 		nextConnection = nextConnection->getNext();
 
 		if(this->m_colorArr[newMain - 1] == WHITE)
 			findAccessibleRec(newMain);
 	}
+
 }
 //-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::findAccessibleItr(int mainPC)
@@ -61,77 +62,64 @@ void ComputerNetwork::findAccessibleItr(int mainPC)
 	Stack stack;
 	bool returnFromRecursion = false;
 
-	Node* currentNode = new Node(&this->m_PCArr[mainPC - 1]); //Variable to go over the arrays and lists we have
-	Node* nodeToDelete = currentNode; //To delete after we used this node
+	ItemType* currentItem = &this->m_PCArr[mainPC - 1]; //Variable to go over the arrays and lists we have
+	stack.push(currentItem);
 
 	do
 	{
- 		if (returnFromRecursion)
-			currentNode->setItem(stack.pop());
+		if (returnFromRecursion)
+			currentItem = stack.pop();
+		
 
-		if (currentNode->getItem()->getPlace() == ItemType::START)
+		if (currentItem->getPlace() == ItemType::START)
 		{
-			if (this->m_colorArr[currentNode->getItem()->getPCNum() - 1] == WHITE)
+
+			if (this->m_colorArr[currentItem->getPCNum() - 1] == WHITE)
 			{
-				this->m_colorArr[currentNode->getItem()->getPCNum() - 1] = BLACK;
-				this->m_accessiblePCs.addItemToEndOfList(currentNode->getItem());
+				this->m_colorArr[currentItem->getPCNum() - 1] = BLACK;
+				this->m_accessiblePCs.addItemToEndOfList(currentItem);
+				currentItem->setPlace(ItemType::AFTER_FIRST);
 			}
 
-			currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
-			stack.push(currentNode->getItem());
-
-			if (currentNode->getNext() && !currentNode->getItem()->getList().getHead())
-			{
-				currentNode->setItem(currentNode->getNext()->getItem());
-				currentNode->setNext(currentNode->getNext()->getNext());
-			}
-
-			else
-				currentNode->getItem()->setPlace(ItemType::AFTER_FIRST);
 			
+			else
+				currentItem->setPlace(ItemType::AFTER_SECOND);
 
 			returnFromRecursion = false;
 		}
 
-		else if (currentNode->getItem()->getPlace() == ItemType::AFTER_FIRST) // AFTER_FIRST
+		else if (currentItem->getPlace() == ItemType::AFTER_FIRST)
 		{
-			
-			if (currentNode->getItem()->getList().getHead())
+			if (currentItem->getNext())
 			{
-					Node* nodeToInsertToStack = currentNode->getNext();
-
-					while (nodeToInsertToStack)
-					{
-						stack.push(nodeToInsertToStack->getItem());
-						nodeToInsertToStack = nodeToInsertToStack->getNext();
-					}
-
-				if (this->m_colorArr[currentNode->getItem()->getList().getHead()->getItem()->getPCNum() - 1] == WHITE)
+				while (currentItem->getNext() && this->m_colorArr[currentItem->getPCNum() - 1] == BLACK)
 				{
-					currentNode->setNext(currentNode->getItem()->getList().getHead()->getNext());
-					currentNode->setItem(currentNode->getItem()->getList().getHead()->getItem());
-
-					returnFromRecursion = false;
+					currentItem = currentItem->getNext();
+					currentItem->setPlace(ItemType::AFTER_FIRST);
 				}
 
+				if(this->m_colorArr[currentItem->getPCNum() - 1] == BLACK)
+					currentItem->setPlace(ItemType::AFTER_SECOND);
+
 				else
-					returnFromRecursion = true;
+				{
+					stack.push(currentItem);
+					currentItem = &this->m_PCArr[currentItem->getPCNum() - 1];
+				}
 			}
 
+
 			else
-			{
-				currentNode->getItem()->setPlace(ItemType::AFTER_SECOND);
-				returnFromRecursion = false;
-			}
+				currentItem->setPlace(ItemType::AFTER_SECOND);
+
+			returnFromRecursion = false;
 		}
 
 		else //AFTER_SECOND
 			returnFromRecursion = true;
-		
 
 	} while (!stack.isEmpty());
 
-	delete nodeToDelete;
 }
 //-------------------------------------------------------------------------------------------------//
 void ComputerNetwork::printAccessibles()

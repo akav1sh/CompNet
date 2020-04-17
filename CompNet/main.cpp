@@ -17,7 +17,7 @@ int main()
 		net.checkConnectionInput(slavePC);
 
 		
-		net.getPCArr()[masterPC - 1].addItemToEndOfList(&net.getPCArr()[slavePC - 1]);
+		net.getPCArr()[masterPC - 1].addItemToEndOfList(new ItemType(net.getPCArr()[slavePC - 1]));
 	}
 	
 	cin >> mainPC;

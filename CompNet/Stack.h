@@ -2,6 +2,7 @@
 #define __STACK_H
 
 #include "ItemType.h"
+#include "Node.h"
 
 // Stack who's data are ItemTypes and uses nodes for next in line
 class Stack
