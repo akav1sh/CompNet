@@ -30,10 +30,10 @@ int main()
 		net.checkConnectionInput(masterPC);
 		net.checkConnectionInput(slavePC);
 
-		ItemType slaveItem(net.getPCArr()[slavePC - 1]);
-		net.getPCArr()[masterPC - 1].addItemToEndOfList(&slaveItem);
+
+		net.getPCArr()[masterPC - 1].addItemToEndOfList(new ItemType(net.getPCArr()[slavePC - 1]));
 	}
-	
+
 	cin >> mainPC;
 	net.checkConnectionInput(mainPC);
 	net.setMainPC(mainPC);
@@ -41,6 +41,5 @@ int main()
 	net.findAccessible("Recursive");
 
 	net.findAccessible("Iterative");
-
 	return 0;
 }
